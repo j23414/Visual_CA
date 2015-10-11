@@ -1,0 +1,16 @@
+/* load cellular automata pattern */
+node(string name, float x, float y, float z, int state, int delta) nt;
+link[]lt;
+graph(nt,lt) ca = import("glider.net");
+
+/* layout */
+foreach node in ca set _x=x, _y=y, _z=z, _r=state, _g=_b=0.50;
+center(ca);
+
+/* you may jump below to run the Game of Life rules to see how the
+   glider moves across ca space, or you can randomize the ca graph
+   and see how John Conway sees it but now in 3D graph!! */
+foreach node in ca set state = rand(0,1);
+
+/* Game of Life rules */
+foreach link in ca set in.delta+=out.state, out.delta+=in.state; foreach node in ca set state=state==1&&(delta<2||delta>3) ? 0 : state==0&&delta==3 ? 1 : state, _r=state, delta=0;
